@@ -36,14 +36,10 @@ httpResponseToByteString hr =
       body = httpResponseBody hr
   in
     B.pack (v ++ " " ++ show (fromEnum code) ++ " " ++ httpStatusCodeReason code ++ "\n" ++
-            "Content-Length: " ++ show (length body) ++ "\n" ++
-            "")
+            "Content-Length: " ++ show (length body) ++ "\n" ++ getHeaders headers ++ "\n"
+            ++ body)
 
-
-h = HttpStatusOK
-headers = [HttpHeader "h1" "h2", HttpHeader "h3" "h4"]
-r = HttpResponse h headers "body"
-v = "HTTP/1.1"
-
-getHeaders :: HttpHeader -> String
-getHeaders (HttpHeader h1 h2) = h1 ++ ": " ++ h2
+getHeaders :: [HttpHeader] -> String
+getHeaders []                      = "\n"
+getHeaders [(HttpHeader k v)]      = k ++ ": " ++ v ++ "\n"
+getHeaders ((HttpHeader k v) : xs) = k ++ ": " ++ v ++ "\n" ++ getHeaders xs
