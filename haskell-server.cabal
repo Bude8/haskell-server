@@ -4,16 +4,16 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 23c92699f8c8ca4a358a9798d5e465fc1b600ea89e04e36f993184e53928d815
+-- hash: 3446f282be78e799962423c7b23a14bbb88e71349acac0c28d053c8df0fdcd90
 
 name:           haskell-server
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/haskell-server#readme>
 homepage:       https://github.com/githubuser/haskell-server#readme
 bug-reports:    https://github.com/githubuser/haskell-server/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2021 Author name here
+author:         Henry Lee
+maintainer:     henryblee8@gmail.com
+copyright:      2021 Henry Lee
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -29,6 +29,7 @@ library
   exposed-modules:
       HttpTypes
       Lib
+      Server
   other-modules:
       Paths_haskell_server
   hs-source-dirs:

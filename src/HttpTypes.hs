@@ -2,7 +2,7 @@ module HttpTypes where
 
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as B
-import           Data.Maybe
+import Data.Maybe ( fromJust )
 import           Data.Tuple            (swap)
 
 data HttpStatusCode
@@ -40,10 +40,10 @@ httpResponseToByteString hr =
       vers = httpVersion hr
   in
     B.pack (vers ++ " " ++ show (fromEnum code) ++ " " ++ httpStatusCodeReason code ++ "\n" ++
-            "Content-Length: " ++ show (length body) ++ "\n" ++ getHeaders headers ++ "\n"
+            "Content-Length: " ++ show (length body) ++ "\n" ++ httpHeadersToString headers ++ "\n"
             ++ body)
 
-getHeaders :: [HttpHeader] -> String
-getHeaders []                      = "\n"
-getHeaders [(HttpHeader k v)]      = k ++ ": " ++ v ++ "\n"
-getHeaders ((HttpHeader k v) : xs) = k ++ ": " ++ v ++ "\n" ++ getHeaders xs
+httpHeadersToString :: [HttpHeader] -> String
+httpHeadersToString []                      = "\n"
+httpHeadersToString [HttpHeader k v]      = k ++ ": " ++ v ++ "\n"
+httpHeadersToString (HttpHeader k v : xs) = k ++ ": " ++ v ++ "\n" ++ httpHeadersToString xs
