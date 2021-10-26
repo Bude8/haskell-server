@@ -1,3 +1,5 @@
+module HttpTypes where
+
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as B
 import           Data.Maybe
@@ -22,6 +24,7 @@ data HttpResponse = HttpResponse
     { httpResponseCode    :: HttpStatusCode
     , httpResponseHeaders :: [HttpHeader]
     , httpResponseBody    :: String
+    , httpVersion         :: String
     } deriving (Show)
 
 httpStatusCodeReason :: HttpStatusCode -> String
@@ -34,8 +37,9 @@ httpResponseToByteString hr =
   let code = httpResponseCode hr
       headers = httpResponseHeaders hr
       body = httpResponseBody hr
+      vers = httpVersion hr
   in
-    B.pack (v ++ " " ++ show (fromEnum code) ++ " " ++ httpStatusCodeReason code ++ "\n" ++
+    B.pack (vers ++ " " ++ show (fromEnum code) ++ " " ++ httpStatusCodeReason code ++ "\n" ++
             "Content-Length: " ++ show (length body) ++ "\n" ++ getHeaders headers ++ "\n"
             ++ body)
 
